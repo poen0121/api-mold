@@ -1,0 +1,17 @@
+/node_modules
+/public/hot
+/public/storage
+/public/docs
+/storage/*.key
+/resources/docs
+/resources/views/apidoc/index.blade.php
+/vendor
+/.idea
+/.vscode
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env
+.phpunit.result.cache
