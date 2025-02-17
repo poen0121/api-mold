@@ -1,0 +1,58 @@
+<?php
+
+$NAMESPACE$
+
+use App\Libraries\Upgrades\BetterBaseRepository as BaseRepository;
+use Prettus\Repository\Criteria\RequestCriteria;
+use $REPOSITORY$
+use $MODEL$;
+$USE_VALIDATOR$
+
+/**
+ * Class $CLASS$RepositoryEloquent.
+ *
+ * @package $NAMESPACE$
+ */
+class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Repository
+{
+    /**
+     * Specify Presenter class name
+     *
+     * @return string
+     */
+    public function presenter()
+    {
+        // Return empty is close presenter default transformer.
+        return;
+    }
+
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return $CLASS$::class;
+    }
+
+    /**
+     * Specify Validator class name
+     *
+     * @return string
+     */
+    public function validator()
+    {
+        // Return empty is to close the validator about create and update on the repository.
+        return$VALIDATOR$;
+    }
+
+    /**
+     * Boot up the repository, pushing criteria
+     */
+    public function boot()
+    {
+        $this->pushCriteria(app(RequestCriteria::class));
+    }
+    
+}

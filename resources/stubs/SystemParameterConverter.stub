@@ -1,0 +1,32 @@
+<?php
+return [
+
+    /*
+     |--------------------------------------------------------------------------
+     | System Parameter Description
+     |--------------------------------------------------------------------------
+     |
+     | Set the system parameter name description.
+     */
+
+    'description' => 'New System Parameter',
+
+    /*
+     |--------------------------------------------------------------------------
+     | Parameter Value Description
+     |--------------------------------------------------------------------------
+     |
+     | Set the parameter value description.
+     | 
+     | Example :
+     | 'value' => [
+     |	'description' => (string) description,
+     |	'type' => (string) type description,
+     | ]
+     */
+
+	'value' => [
+		'description' => 'Define values',
+		'type' => 'mixed'
+	]
+];

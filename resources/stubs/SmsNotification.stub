@@ -1,0 +1,94 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
+use App\Libraries\Traits\Info\Format\Response;
+
+/**
+ * Class DummyClass.
+ *
+ * @package DummyNamespace
+ */
+class DummyClass extends Notification implements ShouldQueue
+{
+    use Queueable;
+    use Response;
+
+    /**
+     * The phone.
+     *
+     * @var string
+     */
+    public $phone;
+
+    /**
+     * The subject.
+     *
+     * @var string
+     */
+    public $subject;
+
+    /**
+     * The message.
+     *
+     * @var array
+     */
+    public $message;
+
+    /**
+     * Create a new notification instance.
+     *
+     * @param string $phone
+     * @param string $subject
+     * @param string $message
+     * @return void
+     */
+    public function __construct(string $phone, string $subject, string $message)
+    {
+        /* Required information */
+        $this->phone = $phone;
+        $this->subject = $subject;
+        $this->message = $message;
+    }
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable): array
+    {
+        return ['sms'];
+    }
+
+    /**
+     * Get the SMS representation of the notification.
+     * 
+     * @param  mixed  $notifiable
+     * @return array
+     * @throws \Exception
+     */
+    public function toSms($notifiable): array
+    {
+        /* Use your SMS provider class to send a message and return the result success or failure */
+        try {
+            /* Logic for send SMS */
+
+            /* Return success message */
+            return $this->success([
+                //
+            ]);
+        } catch (\Throwable $th) {
+            /* Return failure message */
+            return $this->failure([
+                'message' => $th->getMessage()
+            ]);
+            /* Throw error */
+            // throw $th;
+        }
+    }
+}

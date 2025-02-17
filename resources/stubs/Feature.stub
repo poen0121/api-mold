@@ -1,0 +1,154 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\Libraries\Abstracts\Base\Feature as FeatureBase;
+
+/**
+ * Final Class DummyClass.
+ *
+ * @package DummyNamespace
+ */
+final class DummyClass extends FeatureBase
+{
+
+    /**
+     * Get the feature description.
+     *
+     * @return string 
+     */
+    public function getDescription(): string
+    {
+        return 'New Feature';
+    }
+    
+    /**
+     * Get the validation rules that apply to the deploy arguments input.
+     *
+     * @return array
+     */
+    protected function deployRules(): array
+    {
+        return [
+            'quantity' => 'required|integer|between:1,2147483647'
+        ];
+    }
+    
+    /**
+     * Get the validation rules that apply to the handle arguments input.
+     *
+     * @return array
+     */
+    protected function handleRules(): array
+    {
+        return [
+            //
+        ];
+    }
+    
+    /**
+     * Get a list of the feature arguments for the release input required for deploying.
+     *
+     * @return array
+     */
+    protected function deployArguments(): array
+    {
+        return [
+            [
+                'quantity', // Arguments name
+                'integer', // Arguments type ( string | integer | array )
+                'Quantity increase' // Arguments description
+            ]
+        ];
+    }
+    
+    /**
+     * Get a list of the feature arguments for the release input required for handling.
+     *
+     * @return array
+     */
+    protected function handleArguments(): array
+    {
+        return [
+            //
+        ];
+    }
+    
+    /**
+     * Get a list of feature response parameters for deployment.
+     *
+     * @return array
+     */
+    protected function deployResponses(): array
+    {
+        return [
+            [
+                'quantity', // Parameters name
+                'integer', // Parameters type ( string | integer | array | object | boolean )
+                'Quantity increase' // Parameters description
+            ]
+        ];
+    }
+    
+     /**
+     * Get a list of feature response parameters for handle to display.
+     *
+     * @return array
+     */
+    protected function handleResponses(): array
+    {
+        return [
+            [
+                'name', // Parameters name
+                'string', // Parameters type ( string | integer | array | object | boolean )
+                'Item name' // Parameters description
+            ],
+            [
+                'quantity', // Parameters name
+                'integer', // Parameters type ( string | integer | array | object | boolean )
+                'Quantity increase' // Parameters description
+            ]
+        ];
+    }
+
+    /**
+     * Get the begin handle deployment of the feature.
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function deploy(): array
+    {
+        /* get input values */
+        $quantity = $this->getInput('quantity');
+
+        /* place your business logic here */
+        
+        /* output begin handle */
+        return $this->output([
+            'quantity' => $quantity
+        ]);
+    }
+    
+    /**
+     * Execute the feature handle.
+     *
+     * @return array|null
+     * @throws \Exception
+     */
+    protected function handle(): ?array
+    {
+        /* get input values */
+        $quantity = $this->getInput('quantity');
+        /* get other custom input data */
+        $custom = $this->getInput('custom');
+        
+        /* place your business logic here */
+
+		/* output handle */
+        return $this->output([
+            'name' => 'Item name',
+            'quantity' => $quantity
+        ]);
+    }
+}

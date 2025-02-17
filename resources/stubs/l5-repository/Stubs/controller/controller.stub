@@ -1,0 +1,301 @@
+<?php
+
+$NAMESPACE$
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Prettus\Validator\Contracts\ValidatorInterface;
+use Prettus\Validator\Exceptions\ValidatorException;
+use $APPNAME$Http\Requests\$DUMMYCLASS$CreateRequest;
+use $APPNAME$Http\Requests\$DUMMYCLASS$UpdateRequest;
+use $APPNAME$Http\Responses\$DUMMYCLASS$CreateResponse;
+use $APPNAME$Http\Responses\$DUMMYCLASS$UpdateResponse;
+use $APPNAME$Exceptions\$DUMMYCLASS$ExceptionCode as ExceptionCode;
+$REPOSITORY$
+$VALIDATOR$
+
+/**
+ * @group
+ *
+ * Develop
+ *
+ * @package $NAMESPACE$
+ */
+class $CONTROLLER$Controller extends Controller
+{
+    /**
+     * @var $CLASS$Repository
+     */
+    protected $repository;
+
+    /**
+     * @var $CLASS$Validator
+     */
+    protected $validator;
+
+    /**
+     * $CONTROLLER$Controller constructor.
+     *
+     * @param $CLASS$Repository $repository
+     * @param $CLASS$Validator $validator
+     */
+    public function __construct($CLASS$Repository $repository, $CLASS$Validator $validator)
+    {
+        $this->repository = $repository;
+        $this->validator = $validator;
+    }
+
+    /**
+     * Display List
+     *
+     * Display a listing of the resource.
+     *
+     * ### Response Body
+     *
+     * success : true
+     *
+     * data :
+     *
+     * Parameter | Type | Description
+     * --------- | ------- | ------- | -----------
+     * id | INT | Serial id
+     * name | STR | Item name
+     *
+     * meta.pagination :
+     *
+     * Parameter | Type | Description
+     * --------- | ------- | ------- | -----------
+     * total | INT | Total number of data
+     * count | INT | Number of data displayed
+     * per_page | INT | Number of displayed data per page
+     * current_page | INT | Current page number
+     * total_pages | INT | Total pages
+     *
+     * @queryParam page required Page number Example: 1
+     * @queryParam rows Per page rows defaults to 15 Example: 15
+     *
+     * @response
+     * {
+     *    "success": true,
+     *    "data": [
+     *       {
+     *          "id": 1,
+     *          "name": "Develop"
+     *       }
+     *    ],
+     *    "meta": {
+     *        "pagination": {
+     *            "total": 1,
+     *            "count": 1,
+     *            "per_page": 15,
+     *            "current_page": 1,
+     *            "total_pages": 1
+     *        }
+     *    }
+     * }
+     *
+     * @param  $CLASS$CreateRequest $request
+     * @param  $CLASS$CreateResponse $response
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index($CLASS$CreateRequest $request, $CLASS$CreateResponse $response)
+    {
+        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+        
+        $$PLURAL$ = $this->repository->paginate($request->input('rows', 15));
+        if (isset($$PLURAL$['meta']['pagination']['links'])) {
+            unset($$PLURAL$['meta']['pagination']['links']);
+        }
+        
+        return $response->success($$PLURAL$);
+    }
+
+    /**
+     * Create
+     *
+     * Store a newly created resource in storage.
+     *
+     * ### Response Body
+     *
+     * success : true
+     *
+     * data :
+     *
+     * Parameter | Type | Description
+     * --------- | ------- | ------- | -----------
+     * id | INT | Serial id
+     * name | STR | Item name
+     *
+     * @bodyParam name STR required Item name Example: {name}
+     *
+     * @response
+     * {
+     *    "success": true,
+     *    "data": {
+     *       "id": 1,
+     *       "name": "Develop"
+     *    }
+     * }
+     *
+     * @param  $CLASS$CreateRequest $request
+	 * @param  $CLASS$CreateResponse $response
+	 *
+     * @return \Illuminate\Http\Response
+     */
+    public function store($CLASS$CreateRequest $request, $CLASS$CreateResponse $response)
+    {
+        try {
+
+            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+
+            $$SINGULAR$ = $this->repository->create($request->all());
+
+            $source = [
+                'data' => $$SINGULAR$->toArray()
+            ];
+
+            return $response->success($source);
+          
+        } catch (ValidatorException $e) {
+            throw new ExceptionCode(ExceptionCode::NORMAL);
+        }
+    }
+
+    /**
+     * Show
+     *
+     * Display the specified resource.
+     *
+     * ### Response Body
+     *
+     * success : true
+     *
+     * data :
+     *
+     * Parameter | Type | Description
+     * --------- | ------- | ------- | -----------
+     * id | INT | Serial id
+     * name | STR | Item name
+     *
+     * @urlParam id required Serial id Example: 1
+     *
+     * @response
+     * {
+     *    "success": true,
+     *    "data": {
+     *       "id": 1,
+     *       "name": "Develop"
+     *    }
+     * }
+     *
+     * @param  int $id
+     * @param  $CLASS$CreateRequest $request
+     * @param  $CLASS$CreateResponse $response
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id, $CLASS$CreateRequest $request, $CLASS$CreateResponse $response)
+    {
+        $$SINGULAR$ = $this->repository->find($id);
+
+        return $response->success([
+            'data' => $$SINGULAR$
+        ]);
+    }
+
+    /**
+     * Update
+     *
+     * Update the specified resource in storage.
+     *
+     * ### Response Body
+     *
+     * success : true
+     *
+     * data :
+     *
+     * Parameter | Type | Description
+     * --------- | ------- | ------- | -----------
+     * id | INT | Serial id
+     * name | STR | Item name
+     *
+     * @bodyParam name STR required Item name Example: {name}
+     * @urlParam id required Serial id Example: 1
+     *
+     * @response
+     * {
+     *    "success": true,
+     *    "data": {
+     *       "id": 1,
+     *       "name": "Testor"
+     *    }
+     * }
+     *
+     * @param  int $id
+     * @param  $CLASS$UpdateRequest $request
+     * @param  $CLASS$UpdateResponse $response
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id, $CLASS$UpdateRequest $request, $CLASS$UpdateResponse $response)
+    {
+        try {
+
+            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
+
+            $$SINGULAR$ = $this->repository->update($request->all(), $id);
+
+            $source = [
+                'data' => $$SINGULAR$->toArray()
+            ];
+
+            return $response->success($source);
+
+        } catch (ValidatorException $e) {
+            throw new ExceptionCode(ExceptionCode::NORMAL);
+        }
+    }
+
+    /**
+     * Remove
+     *
+     * Remove the specified resource from storage.
+     *
+     * ### Response Body
+     *
+     * success : true
+     *
+     * data :
+     *
+     * Parameter | Type | Description
+     * --------- | ------- | ------- | -----------
+     * id | INT | Serial id
+     * name | STR | Item name
+     *
+     * @urlParam id required Serial id Example: 1
+     *
+     * @response
+     * {
+     *    "success": true,
+     *    "data": {
+     *       "id": 1,
+     *       "name": "Testor"
+     *    }
+     * }
+     *
+     * @param  int $id
+     * @param  $CLASS$UpdateRequest $request
+     * @param  $CLASS$UpdateResponse $response
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id, $CLASS$UpdateRequest $request, $CLASS$UpdateResponse $response)
+    {
+        $deleted = $this->repository->delete($id);
+
+        return $response->success([
+            'data' => $deleted
+        ]);
+    }
+}

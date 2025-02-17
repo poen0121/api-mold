@@ -1,0 +1,55 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\Libraries\Abstracts\Base\Cell as CellBase;
+
+/**
+ * Final Class DummyClass.
+ *
+ * @package DummyNamespace
+ */
+final class DummyClass extends CellBase
+{
+
+    /**
+     * Get the validation rules that apply to the arguments input.
+     *
+     * @return array
+     */
+    protected function rules(): array
+    {
+        return [
+            // Custom validation rules
+        ];
+    }
+
+    /**
+     * Execute the cell handle.
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function handle(): array
+    {
+        // You can use getInput function to get the value returned by validation rules
+        // $this->getInput( Rules name )
+        
+        try {
+
+            /* Place your business logic here */
+
+            /* Return success message */
+            return $this->success([
+                //
+            ]);
+        } catch (\Throwable $th) {
+            /* Return failure message */
+            return $this->failure([
+                'message' => $th->getMessage()
+            ]);
+            /* Throw error */
+            // throw $th;
+        }
+    }
+}

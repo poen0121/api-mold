@@ -1,0 +1,35 @@
+<?php
+
+$NAMESPACE$
+
+use League\Fractal\TransformerAbstract;
+use $MODEL$;
+
+/**
+ * Class $CLASS$Transformer.
+ *
+ * @package $NAMESPACE$
+ */
+class $CLASS$Transformer extends TransformerAbstract
+{
+    /**
+     * Transform the $CLASS$ entity.
+     *
+     * @param \$MODEL$ $model
+     *
+     * @return array
+     */
+    public function transform($CLASS$ $model)
+    {
+        return collect([
+            'id' => (int) $model->id,
+            /* place your other model properties here */
+            
+            /* Timezone datetime */
+            'created_at' => $model->created_at,
+            'updated_at' => $model->updated_at
+        ])->map(function ($item, $key) {
+            return (isset($item) ? $item : '');
+        })->all();
+    }
+}

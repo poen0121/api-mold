@@ -1,0 +1,66 @@
+<?php
+return [
+
+    /*
+     |--------------------------------------------------------------------------
+     | Feature Description
+     |--------------------------------------------------------------------------
+     |
+     | Set the feature name description.
+     */
+
+    'description' => 'New Feature',
+
+    /*
+     |--------------------------------------------------------------------------
+     | Feature Arguments Description
+     |--------------------------------------------------------------------------
+     |
+     | Set the feature relative name list.
+     | 
+     | Example :
+     | 'arguments' => [
+     |	'deploy' => [
+     | 		The name corresponding to the code project => (string) description
+     | 	],
+     |	'handle' => [
+     | 		The name corresponding to the code project => (string) description
+     | 	]
+     | ]
+     */
+
+	'arguments' => [
+		'deploy' => [
+			'quantity' => 'Quantity increase'
+		],
+		'handle' => []
+	],
+	
+	/*
+     |--------------------------------------------------------------------------
+     | Feature Responses Description
+     |--------------------------------------------------------------------------
+     |
+     | Set the feature responses name list.
+     | 
+     | Example :
+     | 'responses' => [
+     |	'deploy' => [
+     | 		The name corresponding to the code project => (string) description
+     | 	],
+     |	'handle' => [
+     | 		The name corresponding to the code project => (string) description
+     | 	]
+     | ]
+     */
+
+	'responses' => [
+		'deploy' => [
+			'quantity' => 'Quantity increase'
+		],
+		'handle' => [
+			'name' => 'Item name',
+			'quantity' => 'Quantity increase'
+		]
+	]
+];
